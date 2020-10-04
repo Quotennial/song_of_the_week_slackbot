@@ -1,8 +1,13 @@
 Following [this video tutorial](https://www.youtube.com/watch?v=zkB_c3cgtd0&t=1186s)
+
 Got stuck on bringing the bot online - so used this [gopher tutorial](https://blog.gopheracademy.com/advent-2017/go-slackbot/)
+
 GO documentation https://godoc.org/github.com/nlopes/slack#AuthTestResponse
+
 To test the bot https://app.slack.com/client/T011WFT94GN/C0121S6UU9K 
+
 Also quite useful https://medium.com/mercari-engineering/writing-an-interactive-message-bot-for-slack-in-golang-6337d04f36b9
+
 Github implementation https://github.com/shomali11/slacker/blob/master/response.go
 
 
