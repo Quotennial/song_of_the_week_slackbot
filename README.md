@@ -29,8 +29,8 @@ To test the bot add it to your [workspace](https://app.slack.com/client/T011WFT9
 - FR4: can be polled/ asked for name out of cycle
 - FR5: extra functionality to pick random name from full list
 - FR6: list available fucntions (info)
-
 - FR6: command to save song of the week to DB (maybe easier to search slack?)
 - FR7: reminders if haven't posted
+
 **Non-Functional Requirements**
 - Have different phrases for song of the week (pick at random from them)
