@@ -21,6 +21,17 @@ go run main.go person_store.go choose_person.go
 
 To test the bot add it to your [workspace](https://app.slack.com/client/T011WFT94GN/C0121S6UU9K)
 
+### Adding Arguments
+`add_bandmembers` - this takes in a string (in slice format) and adds as the list of people to choose from. 
+
+`todaydj` - picks random member from list-without-replacement
+- `accept` - confrims the pick
+- `reject` - replaces and starts again
+- `cancel` - cancels operation
+
+`djtogo` - prints list of people not yet picked
+`random_all` - picks random list from all 
+
 # Requirements
 **Functional Requirements**
 - FR1: periodically (weekly) post random name from list
