@@ -47,15 +47,17 @@ func main() {
 			// if it is not a direct message and not a mention - ignore
 			if !direct && !strings.Contains(ev.Msg.Text, "@"+authTest.UserID) {
 				fmt.Println("Message not for us")
-				continue // does this break out of it? Hope so
+				continue // does this break out of it? I think so
 			}
 
 			fmt.Println("Message for us")
 			fmt.Println(ev.Msg.Text)
 
-			if strings.Contains(ev.Msg.Text, "updatelist") {
-				fmt.Println("update list")
-				continue
+			// add arguments to these if statements, return string,
+			// then put this string into the reply function
+
+			if strings.Contains(ev.Msg.Text, "djtogo") {
+				fmt.Println("djtogo")
 			}
 
 			if strings.Contains(ev.Msg.Text, "showlist") {
@@ -63,12 +65,9 @@ func main() {
 				continue
 			}
 			replyToUser(ev) // need a channeling function to filter out what is being asked
-
 		}
 	}
 }
-
-// fan function have if else statements for containing
 
 func replyToUser(ev *slack.MessageEvent) { //change this to the channel for the actual app
 	fmt.Printf("Channel: %v/n", ev.Msg.Channel)
