@@ -6,7 +6,7 @@ A tool to help pick a member of your team at random! It was originally intended 
 Put the bot online 
 
 ```go
-go run main.go person_store.go choose_person.go help.go
+go run main.go person_store.go choose_person.go help.go sotw.go
 ```
 
 To test the bot add it to your [workspace](https://app.slack.com/client/T011WFT94GN/C0121S6UU9K)

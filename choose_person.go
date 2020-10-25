@@ -6,7 +6,7 @@ import (
 )
 
 func masterPickRandomPerson(listFilePath string) string {
-	pickedPerson, err := pickRandomPerson(listFilePath)
+	pickedPerson, err := pickRandomPerson(listFilePath + "masterlist")
 	if err != nil {
 		return pickedPerson // picked person carries the error message if err!= nil
 	}
@@ -14,8 +14,8 @@ func masterPickRandomPerson(listFilePath string) string {
 	return reply
 }
 
-func pickRandomPerson(listFilePath string) (string, error) {
-	masterList, err := readPersonStore(listFilePath + "masterlist")
+func pickRandomPerson(listFilepath string) (string, error) {
+	masterList, err := readPersonStore(listFilepath)
 	if err != nil {
 		return "`Error:` couldn't find the Master List, please add band members", &CustomError{}
 	}

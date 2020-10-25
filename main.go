@@ -77,6 +77,8 @@ func main() {
 			}
 
 			if strings.Contains(ev.Msg.Text, "sotw") {
+				reply := songOfTheWeekSelection(listFilePath)
+				replyBasic(ev, reply)
 				continue
 			}
 

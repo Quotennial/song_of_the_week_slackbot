@@ -23,7 +23,7 @@ func createNewPersonStore(message string, listFilePath string) string {
 		fmt.Println("Can't add new band")
 		return "`Error:` can not add new band, please ensure format follows - `@SongBot newband [@user1, @user2]`"
 	}
-	personStoreList.saveToFile(listFilePath + "masterList")
+	personStoreList.saveToFile(listFilePath + "master")
 	fmt.Println("Successfully added new band")
 	return "Successfully added new band"
 }
