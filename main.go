@@ -149,6 +149,8 @@ func replySOTW(ev *slack.MessageEvent, replySOTW string, slackClient *slack.Clie
 		fmt.Printf("Could not send message: %v", err)
 	}
 	fmt.Printf("Message with buttons sucessfully sent to channel %s at %s", channelID, timestamp)
+	// here slack sends the response to a websddress - currently configured for ngrok local host
+	// set up a listner to accept those responses and parse and reply
 	http.HandleFunc("/actions", actionHandler)
 	http.ListenAndServe(":3000", nil)
 

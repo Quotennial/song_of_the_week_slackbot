@@ -12,15 +12,6 @@ go run main.go person_store.go choose_person.go help.go sotw.go
 To test the bot add it to your [workspace](https://app.slack.com/client/T011WFT94GN/C0121S6UU9K)
 
 ### Adding Arguments
-`add_bandmembers` - this takes in a string (in slice format) and adds as the list of people to choose from. 
-
-`todaydj` - picks random member from list-without-replacement
-- `accept` - confrims the pick
-- `reject` - replaces and starts again
-- `cancel` - cancels operation
-
-`djtogo` - prints list of people not yet picked
-`random_all` - picks random list from all 
 
 
 # Building Info
@@ -53,3 +44,6 @@ To test the bot https://app.slack.com/client/T011WFT94GN/C0121S6UU9K
 - Image for SongBot
 - Have different phrases for song of the week (pick from them at random)
 - Testing :heavy_check_mark: (scafolding and basic test built)
+
+
+**FR6** slack sends action responses to a forwarding address - so need to secure a domain and add listener to parse responses in the box 
