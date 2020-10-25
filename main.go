@@ -1,13 +1,22 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
 	"github.com/joho/godotenv"
 	"github.com/slack-go/slack"
+)
+
+const (
+	// action is used for slack attament action.
+	actionSelect = "select"
+	actionStart  = "start"
+	actionCancel = "cancel"
 )
 
 func goDotEnvVariable(key string) string {
@@ -29,8 +38,10 @@ func main() {
 	rtm := slackClient.NewRTM() //create the realtime messaging objext
 	go rtm.ManageConnection()   // set it up in a go routine
 
+	// Register handler to receive interactive message
+	// responses from slack (kicked by user action)
+
 	for msg := range rtm.IncomingEvents { //for all incoming messages
-		// fmt.Println(msg)
 		switch ev := msg.Data.(type) {
 		case *slack.MessageEvent:
 			if len(ev.User) == 0 {
@@ -50,6 +61,7 @@ func main() {
 			fmt.Println("Message for us")
 			fmt.Println(ev.Msg.Text)
 			fmt.Println(ev.Channel)
+
 			// ***************INTERACTION DECISION TREE**************
 
 			channelName := ev.Channel                          //save channel name to identify whic list to use
@@ -76,15 +88,15 @@ func main() {
 				continue
 			}
 
-			if strings.Contains(ev.Msg.Text, "sotw") {
-				reply := songOfTheWeekSelection(listFilePath)
+			if strings.Contains(ev.Msg.Text, "help") {
+				reply := helpString()
 				replyBasic(ev, reply)
 				continue
 			}
 
-			if strings.Contains(ev.Msg.Text, "help") {
-				reply := helpString()
-				replyBasic(ev, reply)
+			if strings.Contains(ev.Msg.Text, "sotw") {
+				reply := songOfTheWeekSelection(listFilePath)
+				replySOTW(ev, reply)
 				continue
 			}
 
@@ -103,4 +115,48 @@ func replyBasic(ev *slack.MessageEvent, replyString string) { //change this to t
 	}
 	return
 
+}
+
+func replySOTW(ev *slack.MessageEvent, replySOTW string) {
+
+	// value is passed to message handler when request is approved.
+	attachment := slack.Attachment{
+		Text:       "Would you like to share your song of the week? :musical_note: :control_knobs: :headphones:",
+		CallbackID: fmt.Sprintf("ask_%s", ev.User),
+		Color:      "#666666",
+		Actions: []slack.AttachmentAction{
+			slack.AttachmentAction{
+				Name:  "action",
+				Text:  "No thanks!",
+				Type:  "button",
+				Value: "no",
+			},
+			slack.AttachmentAction{
+				Name:  "action",
+				Text:  "Yes, please!",
+				Type:  "button",
+				Value: "yes",
+			},
+		},
+	}
+	fmt.Println(fmt.Sprintf("ask_%s", ev.User))
+
+	// from tutoiral https://github.com/nlopes/slack/blob/master/examples/buttons/buttons.go
+	message := slack.MsgOptionAttachments(attachment)
+	sotwMessage := slack.MsgOptionText("", false)
+	channelID, timestamp, err := slackClient.PostMessage(ev.Channel, sotwMessage, message)
+	if err != nil {
+		fmt.Printf("Could not send message: %v", err)
+	}
+	fmt.Printf("Message with buttons sucessfully sent to channel %s at %s", channelID, timestamp)
+	http.HandleFunc("/actions", actionHandler)
+}
+
+func actionHandler(w http.ResponseWriter, r *http.Request) {
+	var payload slack.InteractionCallback
+	err := json.Unmarshal([]byte(r.FormValue("payload")), &payload)
+	if err != nil {
+		fmt.Printf("Could not parse action response JSON: %v", err)
+	}
+	fmt.Printf("Message button pressed by user %s with value %s", payload.User.Name, payload.Value)
 }
