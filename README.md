@@ -4,11 +4,11 @@ Got stuck on bringing the bot online - so used this [gopher tutorial](https://bl
 
 GO documentation https://godoc.org/github.com/nlopes/slack#AuthTestResponse
 
-To test the bot https://app.slack.com/client/T011WFT94GN/C0121S6UU9K 
-
 Also quite useful https://medium.com/mercari-engineering/writing-an-interactive-message-bot-for-slack-in-golang-6337d04f36b9
 
 Github implementation https://github.com/shomali11/slacker/blob/master/response.go
+
+To test the bot https://app.slack.com/client/T011WFT94GN/C0121S6UU9K 
 
 
 ## Set up
@@ -44,4 +44,5 @@ To test the bot add it to your [workspace](https://app.slack.com/client/T011WFT9
 - FR7: reminders if haven't posted
 
 **Non-Functional Requirements**
+
 - Have different phrases for song of the week (pick at random from them)

@@ -11,14 +11,11 @@ import (
 )
 
 func goDotEnvVariable(key string) string {
-
 	// load .env file
 	err := godotenv.Load(".env")
-
 	if err != nil {
 		log.Fatalf("Error loading .env file")
 	}
-
 	return os.Getenv(key)
 }
 
@@ -55,6 +52,10 @@ func main() {
 
 			// add arguments to these if statements, return string,
 			// then put this string into the reply function
+			if strings.Contains(ev.Msg.Text, "newband") {
+				fmt.Println("New Band List")
+
+			}
 
 			if strings.Contains(ev.Msg.Text, "djtogo") {
 				fmt.Println("djtogo")
