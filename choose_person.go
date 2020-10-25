@@ -17,3 +17,8 @@ func sentenceGenerator(personID string) string {
 	// create lots of strings to trail the name and then randomly select from that list
 	return sentence
 }
+
+func getSongOfTheWeek() {}
+
+//randomiser function takes in person list and returns selection as string
+// func pickRandomName(p personStore) string {}

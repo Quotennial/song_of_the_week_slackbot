@@ -49,12 +49,20 @@ func main() {
 
 			fmt.Println("Message for us")
 			fmt.Println(ev.Msg.Text)
-
+			// ***************INTERACTION DECISION TREE**************
 			// add arguments to these if statements, return string,
 			// then put this string into the reply function
-			if strings.Contains(ev.Msg.Text, "newband") {
-				fmt.Println("New Band List")
 
+			if strings.Contains(ev.Msg.Text, "newband") {
+				reply := createNewPersonStore(ev.Msg.Text)
+				replyBasic(ev, reply)
+				fmt.Println("New Band List")
+			}
+
+			if strings.Contains(ev.Msg.Text, "showband") {
+				reply := readPersonStore("masterlist").toString()
+				replyBasic(ev, reply)
+				fmt.Println("New Band List")
 			}
 
 			if strings.Contains(ev.Msg.Text, "djtogo") {
@@ -65,6 +73,12 @@ func main() {
 				fmt.Println("show list")
 				continue
 			}
+
+			if strings.Contains(ev.Msg.Text, "help") {
+				reply := helpString()
+				replyBasic(ev, reply)
+			}
+
 			replyToUser(ev) // need a channeling function to filter out what is being asked
 		}
 	}
@@ -76,6 +90,19 @@ func replyToUser(ev *slack.MessageEvent) { //change this to the channel for the 
 	sentence := pickPerson(candidatePeople)
 
 	msg := slack.MsgOptionText(sentence, false)
+	channelID, timestamp, err := slackClient.PostMessage(ev.Channel, msg)
+	// need to accept/ reject (maybe needs to be sepreate func- chack the beer tutorial)
+	fmt.Println(channelID, timestamp)
+
+	if err != nil {
+		log.Println("error sending to slack: " + err.Error())
+	}
+	return
+
+}
+
+func replyBasic(ev *slack.MessageEvent, replyString string) { //change this to the channel for the actual app
+	msg := slack.MsgOptionText(replyString, false)
 	channelID, timestamp, err := slackClient.PostMessage(ev.Channel, msg)
 	// need to accept/ reject (maybe needs to be sepreate func- chack the beer tutorial)
 	fmt.Println(channelID, timestamp)

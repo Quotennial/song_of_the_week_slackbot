@@ -8,9 +8,41 @@ import (
 	"strings"
 )
 
+// CustomError to be raised when regex doesn't work
+type CustomError struct{}
+
+func (m *CustomError) Error() string {
+	return "Custom Error Occured"
+}
+
 type personStore []string
 
-// Functions turning person store into files and reading those files
+//Create and save new master list
+func createNewPersonStore(message string) string {
+	personStoreList, err := inputPeopleList(message) // first clean the message - see if in right format
+	if err != nil {
+		fmt.Println("Can't add new band")
+		return "`Error:` can not add new band, please ensure format follows - `@SongBot newband [@user1, @user2]`"
+	}
+	personStoreList.saveToFile("masterList")
+	fmt.Println("Successfully added new band")
+	return "Successfully added new band"
+}
+
+func inputPeopleList(inputStringList string) (personStore, error) {
+	re := regexp.MustCompile(`(?s)\[(.*)\]`)               // create the regular expression
+	match := re.FindAllStringSubmatch(inputStringList, -1) //test the regular expression to see if throws errors
+	if match == nil {                                      ///if there is no match (nil) then return error
+		return nil, &CustomError{}
+	}
+
+	m := re.FindAllStringSubmatch(inputStringList, -1) //use the regular expression
+	masterPeople := []string{
+		m[0][1],
+	}
+	return masterPeople, nil // return the list of people to be stored
+}
+
 func (p personStore) toString() string {
 	//use a go std library: strings, input and then separator
 	//first turn deck d into a string
@@ -20,7 +52,7 @@ func (p personStore) toString() string {
 func (p personStore) saveToFile(filename string) error {
 	//using the writefile from ioutil library, takes target name, data and permissions
 	// also call our toString function to convert the deck to string
-	return ioutil.WriteFile(filename, []byte(p.toString()), 066)
+	return ioutil.WriteFile(filename, []byte(p.toString()), 0666)
 }
 
 func readPersonStore(filename string) personStore {
@@ -39,23 +71,6 @@ func readPersonStore(filename string) personStore {
 	return personStore(s)
 }
 
-func createNewPersonStore() {}
-
-func getSongOfTheWeek() {}
-
-//randomiser function takes in person list and returns selection as string
-// func pickRandomName(p personStore) string {}
-
-func inputPeopleList(inputStringList string) []string {
-	re := regexp.MustCompile(`(?s)\[(.*)\]`)           // create the regular expression
-	m := re.FindAllStringSubmatch(inputStringList, -1) //
-	masterPeople := []string{
-		m[0][1],
-	}
-	fmt.Println(masterPeople)
-	return masterPeople
-}
-
 func peopleList() []string {
 	//maybe play around with array vs. slice? Master is array and slice is gone vs. ToGo
 	masterPeople := []string{
@@ -65,5 +80,3 @@ func peopleList() []string {
 	}
 	return masterPeople
 }
-
-// allow someone elese to input the array of people they want / change the people list
