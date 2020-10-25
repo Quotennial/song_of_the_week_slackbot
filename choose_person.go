@@ -5,12 +5,12 @@ import (
 	"time"
 )
 
-func pickRandomPerson() string {
-	masterList, err := readPersonStore("masterlist")
+func pickRandomPerson(listFilePath string) (string, error) {
+	masterList, err := readPersonStore(listFilePath + "masterlist")
 	if err != nil {
-		return "I couldn't find the master list"
+		return "`Error:` I couldn't find the master list", &CustomError{}
 	}
-	return masterList.randomFromList()
+	return masterList.randomFromList(), nil
 }
 
 func (p personStore) randomFromList() string {

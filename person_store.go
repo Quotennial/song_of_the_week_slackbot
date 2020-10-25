@@ -17,15 +17,24 @@ func (m *CustomError) Error() string {
 type personStore []string
 
 //Create and save new master list
-func createNewPersonStore(message string, channelName string) string {
+func createNewPersonStore(message string, listFilePath string) string {
 	personStoreList, err := inputPeopleList(message) // first clean the message - see if in right format
 	if err != nil {
 		fmt.Println("Can't add new band")
 		return "`Error:` can not add new band, please ensure format follows - `@SongBot newband [@user1, @user2]`"
 	}
-	personStoreList.saveToFile(channelName + "masterList")
+	personStoreList.saveToFile(listFilePath + "masterList")
 	fmt.Println("Successfully added new band")
 	return "Successfully added new band"
+}
+
+func showBand(listFilePath string) string {
+	masterList, err := readPersonStore(listFilePath + "masterlist")
+	if err != nil {
+		return "`Error:` couldn't find the Master List, please add band members"
+	}
+	replyString := "The master list: [" + masterList.toString() + "]"
+	return replyString
 }
 
 func inputPeopleList(inputStringList string) (personStore, error) {

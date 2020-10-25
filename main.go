@@ -52,27 +52,30 @@ func main() {
 			fmt.Println(ev.Channel)
 			// ***************INTERACTION DECISION TREE**************
 
-			channelName := ev.Channel //save channel name for refrence
+			channelName := ev.Channel                          //save channel name to identify whic list to use
+			listFolderName := "nameListFolder"                 // store the files with names in one folder
+			listFilePath := listFolderName + "/" + channelName // use this file path
 
 			// takes in string of slack usernames and stores in file
 			if strings.Contains(ev.Msg.Text, "newband") {
-				reply := createNewPersonStore(ev.Msg.Text, channelName)
+				reply := createNewPersonStore(ev.Msg.Text, listFilePath)
 				replyBasic(ev, reply)
+				continue
 			}
 
 			// reads and shows the master list
 			if strings.Contains(ev.Msg.Text, "showband") {
-				masterList, err := readPersonStore("channelName" + "masterlist")
-				if err != nil {
-					replyBasic(ev, "I couldn't find the master list")
-					continue
-				}
-				reply := "The master list: [" + masterList.toString() + "]"
+				reply := showBand(listFilePath)
 				replyBasic(ev, reply)
+				continue
 			}
 
 			if strings.Contains(ev.Msg.Text, "pickrandom") {
-				pickedPerson := pickRandomPerson()
+				pickedPerson, err := pickRandomPerson(listFilePath)
+				if err != nil {
+					replyBasic(ev, pickedPerson) // picked person carries the error message
+					continue
+				}
 				reply := "Randomly selected person is: " + pickedPerson
 				replyBasic(ev, reply)
 			}
@@ -84,27 +87,11 @@ func main() {
 			if strings.Contains(ev.Msg.Text, "help") {
 				reply := helpString()
 				replyBasic(ev, reply)
+				continue
 			}
 
 		}
 	}
-}
-
-func replyToUser(ev *slack.MessageEvent) { //change this to the channel for the actual app
-	fmt.Printf("Channel: %v/n", ev.Msg.Channel)
-	// candidatePeople := peopleList() // make this master list and can be the generator function
-	sentence := "test"
-
-	msg := slack.MsgOptionText(sentence, false)
-	channelID, timestamp, err := slackClient.PostMessage(ev.Channel, msg)
-	// need to accept/ reject (maybe needs to be sepreate func- chack the beer tutorial)
-	fmt.Println(channelID, timestamp)
-
-	if err != nil {
-		log.Println("error sending to slack: " + err.Error())
-	}
-	return
-
 }
 
 func replyBasic(ev *slack.MessageEvent, replyString string) { //change this to the channel for the actual app
