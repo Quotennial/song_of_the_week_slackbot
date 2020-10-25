@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"regexp"
 	"strings"
 )
 
-// CustomError to be raised when regex doesn't work
+// CustomError to be raised when regex doesn't work, or no file is found
 type CustomError struct{}
 
 func (m *CustomError) Error() string {
@@ -55,20 +54,20 @@ func (p personStore) saveToFile(filename string) error {
 	return ioutil.WriteFile(filename, []byte(p.toString()), 0666)
 }
 
-func readPersonStore(filename string) personStore {
+func readPersonStore(filename string) (personStore, error) {
+	// TODO need error handling if no file found
 	// byteslice and error obj is returned from the function
 	bs, err := ioutil.ReadFile(filename)
 	// if error is there
 	if err != nil {
 		// Option #1 - log the error and return a call to newDeck()
 		// Option #2 - Log the error and entirely quit the program
-		fmt.Println("Error:", err)
-		os.Exit(1)
+		return nil, &CustomError{}
 	}
 	// need to resplit the string by comma, use std package
 	s := strings.Split(string(bs), ",")
 	// convert back into deck type
-	return personStore(s)
+	return personStore(s), nil
 }
 
 func peopleList() []string {

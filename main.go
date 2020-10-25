@@ -50,9 +50,9 @@ func main() {
 			fmt.Println("Message for us")
 			fmt.Println(ev.Msg.Text)
 			// ***************INTERACTION DECISION TREE**************
-			// add arguments to these if statements, return string,
-			// then put this string into the reply function
+			// add arguments to these if statements, return string, then put this string into the reply function
 
+			// takes in string of slack usernames and stores in file
 			if strings.Contains(ev.Msg.Text, "newband") {
 				reply := createNewPersonStore(ev.Msg.Text)
 				replyBasic(ev, reply)
@@ -60,13 +60,18 @@ func main() {
 			}
 
 			if strings.Contains(ev.Msg.Text, "showband") {
-				reply := readPersonStore("masterlist").toString()
+				masterList, err := readPersonStore("masterlist")
+				if err != nil {
+					replyBasic(ev, "I couldn't find the master list")
+					continue
+				}
+				reply := "[" + masterList.toString() + "]"
 				replyBasic(ev, reply)
-				fmt.Println("New Band List")
 			}
 
-			if strings.Contains(ev.Msg.Text, "djtogo") {
-				fmt.Println("djtogo")
+			if strings.Contains(ev.Msg.Text, "pickrandom") {
+				pickedPerson := pickRandomPerson()
+				replyBasic(ev, pickedPerson)
 			}
 
 			if strings.Contains(ev.Msg.Text, "showlist") {
@@ -86,8 +91,8 @@ func main() {
 
 func replyToUser(ev *slack.MessageEvent) { //change this to the channel for the actual app
 	fmt.Printf("Channel: %v/n", ev.Msg.Channel)
-	candidatePeople := peopleList() // make this master list and can be the generator function
-	sentence := pickPerson(candidatePeople)
+	// candidatePeople := peopleList() // make this master list and can be the generator function
+	sentence := "test"
 
 	msg := slack.MsgOptionText(sentence, false)
 	channelID, timestamp, err := slackClient.PostMessage(ev.Channel, msg)
