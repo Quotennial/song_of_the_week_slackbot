@@ -71,13 +71,9 @@ func main() {
 			}
 
 			if strings.Contains(ev.Msg.Text, "pickrandom") {
-				pickedPerson, err := pickRandomPerson(listFilePath)
-				if err != nil {
-					replyBasic(ev, pickedPerson) // picked person carries the error message
-					continue
-				}
-				reply := "Randomly selected person is: " + pickedPerson
+				reply := masterPickRandomPerson(listFilePath)
 				replyBasic(ev, reply)
+				continue
 			}
 
 			if strings.Contains(ev.Msg.Text, "sotw") {

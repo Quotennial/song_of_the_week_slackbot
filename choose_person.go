@@ -5,10 +5,19 @@ import (
 	"time"
 )
 
+func masterPickRandomPerson(listFilePath string) string {
+	pickedPerson, err := pickRandomPerson(listFilePath)
+	if err != nil {
+		return pickedPerson // picked person carries the error message if err!= nil
+	}
+	reply := "Randomly selected person is: " + pickedPerson
+	return reply
+}
+
 func pickRandomPerson(listFilePath string) (string, error) {
 	masterList, err := readPersonStore(listFilePath + "masterlist")
 	if err != nil {
-		return "`Error:` I couldn't find the master list", &CustomError{}
+		return "`Error:` couldn't find the Master List, please add band members", &CustomError{}
 	}
 	return masterList.randomFromList(), nil
 }

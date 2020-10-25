@@ -39,10 +39,10 @@ To test the bot https://app.slack.com/client/T011WFT94GN/C0121S6UU9K
 
 ## Requirements and Roadmap
 **Functional Requirements**
-- FR1: can add list of users to be selected from (rejects incorrect format)
-- FR2: can edit the list of users to be selected from 
-- FR3: has *help* info sheet with list available commands (info)
-- FR4: can select name from list at random (with replacement)
+- FR1: can add list of users to be selected from (rejects incorrect format) :heavy_check_mark:
+- FR2: can edit the list of users to be selected from :heavy_check_mark:
+- FR3: has *help* info sheet with list available commands (info) :heavy_check_mark:
+- FR4: can select name from list at random (with replacement) :heavy_check_mark:
 - FR5: can select "song of the week" person from list without replacement 
 - FR6: user is able to accept/ reject name 
 - FR6: command to save song of the week to DB (maybe easier to search slack?)
@@ -52,4 +52,4 @@ To test the bot https://app.slack.com/client/T011WFT94GN/C0121S6UU9K
 **Non-Functional Requirements**
 - Image for SongBot
 - Have different phrases for song of the week (pick from them at random)
-- Testing
+- Testing :heavy_check_mark: (scafolding and basic test built)
