@@ -96,7 +96,7 @@ func main() {
 
 			if strings.Contains(ev.Msg.Text, "sotw") {
 				reply := songOfTheWeekSelection(listFilePath)
-				replySOTW(ev, reply)
+				replySOTW(ev, reply, slackClient)
 				continue
 			}
 
@@ -117,7 +117,7 @@ func replyBasic(ev *slack.MessageEvent, replyString string) { //change this to t
 
 }
 
-func replySOTW(ev *slack.MessageEvent, replySOTW string) {
+func replySOTW(ev *slack.MessageEvent, replySOTW string, slackClient *slack.Client) {
 
 	// value is passed to message handler when request is approved.
 	attachment := slack.Attachment{
@@ -150,6 +150,8 @@ func replySOTW(ev *slack.MessageEvent, replySOTW string) {
 	}
 	fmt.Printf("Message with buttons sucessfully sent to channel %s at %s", channelID, timestamp)
 	http.HandleFunc("/actions", actionHandler)
+	http.ListenAndServe(":3000", nil)
+
 }
 
 func actionHandler(w http.ResponseWriter, r *http.Request) {

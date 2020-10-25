@@ -43,7 +43,7 @@ To test the bot https://app.slack.com/client/T011WFT94GN/C0121S6UU9K
 - FR2: can edit the list of users to be selected from :heavy_check_mark:
 - FR3: has *help* info sheet with list available commands (info) :heavy_check_mark:
 - FR4: can select name from list at random (with replacement) :heavy_check_mark:
-- FR5: can select "song of the week" person from list without replacement 
+- FR5: can select "song of the week" person from list without replacement :heavy_check_mark:
 - FR6: user is able to accept/ reject name 
 - FR6: command to save song of the week to DB (maybe easier to search slack?)
 - FR7: have multiple channels/users per slack account (possible with naming_lists by channel?)
