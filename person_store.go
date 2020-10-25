@@ -29,7 +29,7 @@ func createNewPersonStore(message string, listFilePath string) string {
 }
 
 func showBand(listFilePath string) string {
-	masterList, err := readPersonStore(listFilePath + "masterlist")
+	masterList, err := readPersonStore(listFilePath + "master")
 	if err != nil {
 		return "`Error:` couldn't find the Master List, please add band members"
 	}
