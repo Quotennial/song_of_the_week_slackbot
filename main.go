@@ -49,33 +49,35 @@ func main() {
 
 			fmt.Println("Message for us")
 			fmt.Println(ev.Msg.Text)
+			fmt.Println(ev.Channel)
 			// ***************INTERACTION DECISION TREE**************
-			// add arguments to these if statements, return string, then put this string into the reply function
+
+			channelName := ev.Channel //save channel name for refrence
 
 			// takes in string of slack usernames and stores in file
 			if strings.Contains(ev.Msg.Text, "newband") {
-				reply := createNewPersonStore(ev.Msg.Text)
+				reply := createNewPersonStore(ev.Msg.Text, channelName)
 				replyBasic(ev, reply)
-				fmt.Println("New Band List")
 			}
 
+			// reads and shows the master list
 			if strings.Contains(ev.Msg.Text, "showband") {
-				masterList, err := readPersonStore("masterlist")
+				masterList, err := readPersonStore("channelName" + "masterlist")
 				if err != nil {
 					replyBasic(ev, "I couldn't find the master list")
 					continue
 				}
-				reply := "[" + masterList.toString() + "]"
+				reply := "The master list: [" + masterList.toString() + "]"
 				replyBasic(ev, reply)
 			}
 
 			if strings.Contains(ev.Msg.Text, "pickrandom") {
 				pickedPerson := pickRandomPerson()
-				replyBasic(ev, pickedPerson)
+				reply := "Randomly selected person is: " + pickedPerson
+				replyBasic(ev, reply)
 			}
 
-			if strings.Contains(ev.Msg.Text, "showlist") {
-				fmt.Println("show list")
+			if strings.Contains(ev.Msg.Text, "sotw") {
 				continue
 			}
 
@@ -84,7 +86,6 @@ func main() {
 				replyBasic(ev, reply)
 			}
 
-			replyToUser(ev) // need a channeling function to filter out what is being asked
 		}
 	}
 }

@@ -17,13 +17,13 @@ func (m *CustomError) Error() string {
 type personStore []string
 
 //Create and save new master list
-func createNewPersonStore(message string) string {
+func createNewPersonStore(message string, channelName string) string {
 	personStoreList, err := inputPeopleList(message) // first clean the message - see if in right format
 	if err != nil {
 		fmt.Println("Can't add new band")
 		return "`Error:` can not add new band, please ensure format follows - `@SongBot newband [@user1, @user2]`"
 	}
-	personStoreList.saveToFile("masterList")
+	personStoreList.saveToFile(channelName + "masterList")
 	fmt.Println("Successfully added new band")
 	return "Successfully added new band"
 }
@@ -68,14 +68,4 @@ func readPersonStore(filename string) (personStore, error) {
 	s := strings.Split(string(bs), ",")
 	// convert back into deck type
 	return personStore(s), nil
-}
-
-func peopleList() []string {
-	//maybe play around with array vs. slice? Master is array and slice is gone vs. ToGo
-	masterPeople := []string{
-		"U0123E4S1S7",
-		"USER2",
-		"USER3",
-	}
-	return masterPeople
 }
